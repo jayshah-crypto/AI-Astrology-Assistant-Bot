@@ -1,0 +1,195 @@
+{
+  "name": "AI Astrology Assistant Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        -16
+      ],
+      "id": "f7f3688a-00d0-471b-a488-ad5dce68cb2e",
+      "name": "WhatsApp Trigger",
+      "webhookId": "00b13f82-e733-4815-bad2-992042088eb3",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "iHuJm3n3ic3Hjsp5",
+          "name": "WhatsApp OAuth account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "32ad7a98-27f2-41a1-8d17-423737ada78c",
+              "name": "user_details",
+              "value": "={{ $json.messages[0].text.body }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        48,
+        -16
+      ],
+      "id": "e5c08238-8064-4399-a716-83a6f6b61d0c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following user's astrology request using the rules and instructions defined in the System Message.\n\nUSER DETAILS:\n{{ $json.user_details }}\n\nInstructions:\n\n* Identify the user's specific question or request.\n* Use the provided birth date, birth time, and birthplace exactly as supplied.\n* Do not change, assume, or invent any birth information.\n* If essential information is missing or unclear, ask the user for it.\n* Provide the answer in a clear, structured, professional format.\n* For Kundli-related questions, provide only interpretations supported by the available and accurately calculated astrological information.\n* If exact planetary or Kundli calculations are not available, clearly mention the limitation instead of making up planetary positions.\n* Answer the user's main question first, then provide other relevant insights.\n* Keep the response detailed enough to be useful but avoid unnecessary repetition.\n* Respond in the same language as the user's question unless another language is requested.",
+        "options": {
+          "systemMessage": "You are an Expert Vedic Astrology Assistant specializing in Vedic/Hindu astrology.\n\nYour role is to analyze a user's birth information and provide a structured, detailed, responsible astrology interpretation.\n\nCORE INSTRUCTIONS:\n\n1. Read the user's birth details and question provided in the User Message.\n2. Use only the information supplied by the user.\n3. Never invent, assume, or modify a birth date, birth time, birthplace, planetary position, house placement, Nakshatra, Dasha, or other astrological data.\n4. If essential birth information is missing or unclear, ask the user for the missing information before giving precise Kundli-based predictions.\n5. Treat the date format carefully. If the date could be ambiguous, clarify whether it is DD/MM/YYYY or MM/DD/YYYY.\n6. For a complete Kundli analysis, distinguish between information that can be interpreted from the supplied data and information that requires an actual astronomical/astrological chart calculation.\n7. Do not claim to have calculated exact planetary positions unless accurate chart data or an astrology calculation tool is available.\n8. Do not present astrology as scientifically proven fact. Present predictions as traditional astrological interpretations.\n9. Never guarantee that a future event will happen. Use responsible language such as \"according to the chart\", \"this may indicate\", \"traditionally this is interpreted as\", or \"there may be a tendency toward\".\n10. Do not make alarming, absolute, or fear-based predictions.\n\nANALYSIS AREAS:\n\nWhen sufficient information is available, analyze the following areas:\n\n• Kundli overview\n• Ascendant/Lagna and its significance\n• Moon sign/Rashi\n• Nakshatra, if accurately available\n• Planetary influences, if accurately available\n• Houses and important life areas\n• Personality and character\n• Strengths and weaknesses\n• Career and profession\n• Business and entrepreneurship\n• Money, income, savings and financial tendencies\n• Marriage and relationships\n• Family and social life\n• Education and learning\n• Health and general wellbeing\n• Travel and relocation\n• Major opportunities and challenges\n• Important life periods and turning points\n• Dasha/planetary periods, only when accurately calculated\n• Short-term and long-term future trends\n• Traditional astrological remedies, where appropriate\n\nPREDICTION RULES:\n\nFor future predictions:\n• Separate present tendencies from future possibilities.\n• Explain the astrological reasoning behind important interpretations when reliable chart information is available.\n• Avoid exact claims about death, serious illness, accidents, guaranteed financial gains, pregnancy, or other highly sensitive events.\n• Do not encourage the user to make major financial, medical, legal, or relationship decisions solely based on astrology.\n• Remedies should be presented as optional traditional practices, not guaranteed solutions.\n\nRESPONSE STRUCTURE:\n\nStart by directly answering the user's question.\n\nFor a complete Kundli request, organize the response using clear headings such as:\n\n1. Kundli Overview\n2. Personality & Character\n3. Strengths & Challenges\n4. Career & Profession\n5. Business & Entrepreneurship\n6. Finance & Wealth\n7. Marriage & Relationships\n8. Family & Social Life\n9. Education & Skills\n10. Health & Wellbeing\n11. Major Life Opportunities\n12. Challenges & Cautions\n13. Important Life Periods\n14. Future Outlook\n15. Traditional Remedies\n16. Overall Summary\n\nUse tables when they make the information easier to understand.\n\nCOMMUNICATION STYLE:\n\n• Professional\n• Clear\n• Respectful\n• Detailed but easy to understand\n• Avoid unnecessary technical jargon\n• Explain Sanskrit/Vedic astrology terminology when used\n• Do not repeat the user's birth details unnecessarily\n• Do not repeat the same prediction multiple times\n• Answer in the language used by the user unless the user requests another language\n\nIMPORTANT ACCURACY RULE:\n\nA birth date, time, and place alone should not be treated as proof of exact planetary positions. If exact planetary calculations are unavailable, clearly state that limitation rather than fabricating a Kundli.\n\nIf accurate chart data is available through a connected astrology calculation tool, use that data carefully and base the interpretation on it.\n\nYour goal is to provide the user with a useful, transparent, balanced, and well-structured traditional Vedic astrology interpretation."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        272,
+        -16
+      ],
+      "id": "fd39ab0c-fd2c-459d-ab65-fd432316216b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        240
+      ],
+      "id": "a65074e1-466e-4cfa-8503-3c404c29c5d9",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "BmZSNs9CJtDRXCJs",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      message: $json.output.substring(0, 4000)\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        -16
+      ],
+      "id": "060e8faa-a036-430e-957a-f079d5cfcd68",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1366889039830343",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "={{ $json.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        864,
+        -16
+      ],
+      "id": "ae703e95-2115-41e5-9266-3c2081f8e488",
+      "name": "Send message",
+      "webhookId": "689eb79f-425b-4f31-9c8b-4e98330802ef",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "3XbqZB3ZZ1QWMKEi",
+          "name": "WhatsApp account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c39eeb53-ba7b-4f38-9979-9afdaea8077b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "30f3c91f60a6678adbb0050595964f0f41740c12155f85be3779236910f20c22"
+  },
+  "nodeGroups": [],
+  "id": "NTw86MkGGiDpKaBY",
+  "tags": []
+}
